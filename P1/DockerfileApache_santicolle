@@ -1,0 +1,35 @@
+# Imagen base de Linux
+FROM ubuntu:jammy
+
+# Variables de entorno
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Exponer puertos
+EXPOSE 80 443 22
+
+# Actualizar paquetes e instalar Apache y PHP y otras herramientas de red
+RUN apt update -y \
+    && apt install apache2 php libapache2-mod-php -y \
+    && apt install net-tools iputils-ping iproute2 iptables -y \
+    && apt install cron curl -y 
+
+COPY config_php/php.ini /etc/php/7.3/apache2/php.ini 
+COPY config_apache/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY cron/maintenance.sh /etc/cron.d/maintenance.sh
+
+RUN chmod +x /etc/cron.d/maintenance.sh \
+    && mkdir -p /var/log/cron \
+    && chmod 777 /var/log/cron
+
+HEALTHCHECK --interval=5s --timeout=2s --retries=3 CMD curl -f http://localhost:80/ || exit 1
+
+# Copiar archivos de configuración
+CMD ["/bin/sh", "-c", "service apache2 restart; \
+    echo '@daily /etc/cron.d/maintenance.sh' | crontab -; \
+    cron -f; \
+    /usr/sbin/iptables -A INPUT -p tcp --dport 80 -j ACCEPT; \
+    /usr/sbin/iptables -A INPUT -p tcp --dport 443 -j ACCEPT; \
+    /usr/sbin/iptables -A INPUT -p tcp --dport 8080 -j ACCEPT; \
+    /usr/sbin/iptables -A INPUT -p tcp --dport 22 -j ACCEPT; \
+    /usr/sbin/iptables -A INPUT -p tcp -j DROP; \
+    /usr/sbin/apache2ctl -D FOREGROUND;"]

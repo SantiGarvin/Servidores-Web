@@ -1,0 +1,149 @@
+version: '3.1'
+
+services:
+  santicolle-apache:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    build: 
+      context: .
+      dockerfile: DockerfileApache_santicolle
+    ports:
+      - "8090:80"
+    cap_add:
+      - NET_ADMIN
+    user: root
+    restart: always
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.10
+      red_servicios:
+        ipv4_address: 192.168.20.10
+    hostname: servidor-web
+
+  web1:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8080:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.2
+      red_servicios:
+        ipv4_address: 192.168.20.2
+    hostname: servidor-web-1
+
+  web2:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8081:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.3
+      red_servicios:
+        ipv4_address: 192.168.20.3
+    hostname: servidor-web-2
+  
+  web3:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8082:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.4
+      red_servicios:
+        ipv4_address: 192.168.20.4
+    hostname: servidor-web-3
+
+  web4:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8083:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.5
+      red_servicios:
+        ipv4_address: 192.168.20.5
+    hostname: servidor-web-4
+
+  web5:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8084:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.6
+      red_servicios:
+        ipv4_address: 192.168.20.6
+    hostname: servidor-web-5
+
+  web6:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8085:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.7
+      red_servicios:
+        ipv4_address: 192.168.20.7
+    hostname: servidor-web-6
+
+  web7:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8086:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.8
+      red_servicios:
+        ipv4_address: 192.168.20.8
+    hostname: servidor-web-7
+
+  web8:
+    image: santicolle-apache-image:p1
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    ports:
+      - "8087:80"
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.9
+      red_servicios:
+        ipv4_address: 192.168.20.9
+    hostname: servidor-web-8
+
+  nginx:
+    image: nginx:latest
+    # volumes:
+    #   - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8100:80"
+    restart: always
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.20
+    hostname: servidor_nginx
+
+networks:
+  red_web:
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+  red_servicios:
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24
+
