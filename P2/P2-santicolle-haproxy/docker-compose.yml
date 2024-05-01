@@ -1,0 +1,137 @@
+version: '3.1'
+
+services:
+  santicolle-apache:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    build:
+      context: .
+      dockerfile: DockerfileApache_santicolle_p2
+    cap_add:
+      - NET_ADMIN
+    user: root
+    hostname: servidor-web
+
+  web1:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.2
+      red_servicios:
+        ipv4_address: 192.168.20.2
+    hostname: servidor-web-1
+
+  web2:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.3
+      red_servicios:
+        ipv4_address: 192.168.20.3
+    hostname: servidor-web-2
+
+  web3:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.4
+      red_servicios:
+        ipv4_address: 192.168.20.4
+    hostname: servidor-web-3
+
+  web4:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.5
+      red_servicios:
+        ipv4_address: 192.168.20.5
+    hostname: servidor-web-4
+
+  web5:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.6
+      red_servicios:
+        ipv4_address: 192.168.20.6
+    hostname: servidor-web-5
+
+  web6:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.7
+      red_servicios:
+        ipv4_address: 192.168.20.7
+    hostname: servidor-web-6
+
+  web7:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.8
+      red_servicios:
+        ipv4_address: 192.168.20.8
+    hostname: servidor-web-7
+
+  web8:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.9
+      red_servicios:
+        ipv4_address: 192.168.20.9
+    hostname: servidor-web-8
+
+  haproxy:
+    build:
+      context: .
+      dockerfile: DockerfileHAproxy
+    image: santicolle-haproxy-image:p2
+    container_name: haproxy
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "8080:80"
+      - "8081:9000"
+    restart: always
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.50
+    depends_on:
+      - web1
+      - web2
+      - web3
+      - web4
+      - web5
+      - web6
+      - web7
+      - web8
+
+networks:
+  red_web:
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+  red_servicios:
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24

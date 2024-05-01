@@ -1,0 +1,3 @@
+:80 {
+  reverse_proxy web1:80 web2:80
+}

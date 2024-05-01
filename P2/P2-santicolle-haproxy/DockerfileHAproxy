@@ -1,0 +1,9 @@
+FROM haproxy:2.3
+
+RUN apt update
+
+EXPOSE 80 
+
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+
+

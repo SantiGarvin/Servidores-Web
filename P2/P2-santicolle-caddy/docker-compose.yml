@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+  caddy:
+    build:
+      context: .
+      dockerfile: DockerfileCaddy
+    ports:
+      - "8080:80"
+      # - "8443:443"
+    volumes:
+      - ./config/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.50
+
+  santicolle-apache:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    build: 
+      context: .
+      dockerfile: DockerfileApache_santicolle_p2
+    cap_add:
+      - NET_ADMIN
+    user: root
+    hostname: servidor-web
+
+  web1:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.2
+      red_servicios:
+        ipv4_address: 192.168.20.2
+
+  web2:
+    image: santicolle-apache-image:p2
+    volumes:
+      - ./web_santicolle:/var/www/html/
+    networks:
+      red_web:
+        ipv4_address: 192.168.10.3
+      red_servicios:
+        ipv4_address: 192.168.20.3
+
+  # Resto de servicios web...
+
+networks:
+  red_web:
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+  red_servicios:
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24

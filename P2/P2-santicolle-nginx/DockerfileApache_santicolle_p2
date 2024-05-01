@@ -1,0 +1,19 @@
+# Imagen base de Linux
+FROM ubuntu:jammy
+
+# Variables de entorno
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Exponer puertos
+EXPOSE 80 443 22
+
+# Actualizar paquetes
+RUN apt update -y \
+    && apt install apache2 php libapache2-mod-php -y
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+
+
+
