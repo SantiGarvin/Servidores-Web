@@ -14,6 +14,7 @@ services:
     restart: always
     hostname: servidor-web
 
+
   web1:
     image: santicolle-apache-image:p2
     volumes:
@@ -24,6 +25,8 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.2
     hostname: servidor-web-1
+    ports:
+      - "8001:80"
 
   web2:
     image: santicolle-apache-image:p2
@@ -35,7 +38,9 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.3
     hostname: servidor-web-2
-  
+    ports:
+      - "8002:80"
+
   web3:
     image: santicolle-apache-image:p2
     volumes:
@@ -46,6 +51,8 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.4
     hostname: servidor-web-3
+    ports:
+      - "8003:80"
 
   web4:
     image: santicolle-apache-image:p2
@@ -57,6 +64,8 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.5
     hostname: servidor-web-4
+    ports:
+      - "8004:80"
 
   web5:
     image: santicolle-apache-image:p2
@@ -68,6 +77,8 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.6
     hostname: servidor-web-5
+    ports:
+      - "8005:80"
 
   web6:
     image: santicolle-apache-image:p2
@@ -79,6 +90,8 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.7
     hostname: servidor-web-6
+    ports:
+      - "8006:80"
 
   web7:
     image: santicolle-apache-image:p2
@@ -90,6 +103,8 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.8
     hostname: servidor-web-7
+    ports:
+      - "8007:80"
 
   web8:
     image: santicolle-apache-image:p2
@@ -101,6 +116,8 @@ services:
       red_servicios:
         ipv4_address: 192.168.20.9
     hostname: servidor-web-8
+    ports:
+      - "8008:80"
 
   nginx:
     build:
