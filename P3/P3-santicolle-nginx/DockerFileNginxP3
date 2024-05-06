@@ -1,0 +1,16 @@
+FROM nginx:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Crear directorio para SSL
+RUN mkdir -p /etc/nginx/ssl
+
+# Copiar certificados SSL al contenedor
+COPY certificados_santicolle/certificado_santicolle.crt /etc/nginx/ssl/certificado_santicolle.crt
+COPY certificados_santicolle/certificado_santicolle.key /etc/nginx/ssl/certificado_santicolle.key
+
+# Incluir configuración de Nginx para SSL
+COPY santicolle-nginx-ssl.conf /etc/nginx/nginx.conf
+
+# Exponer el puerto HTTPS
+EXPOSE 443

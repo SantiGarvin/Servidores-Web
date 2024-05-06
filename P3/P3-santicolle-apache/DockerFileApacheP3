@@ -1,0 +1,25 @@
+# Imagen base de Apache
+FROM ubuntu:jammy
+
+# Variables de entorno
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Actualizar paquetes e instalar Apache y PHP
+RUN apt update -y \
+    && apt install apache2 php libapache2-mod-php -y
+
+#Instalar módulo y habilitar sitio SSL por defecto y crear directorio para certificados
+RUN a2enmod ssl && a2ensite default-ssl && mkdir /etc/apache2/ssl
+
+# Copiar certificado y clave privada
+COPY certificados_santicolle/certificado_santicolle.crt /etc/apache2/ssl/certificado_santicolle.crt
+COPY certificados_santicolle/certificado_santicolle.key /etc/apache2/ssl/certificado_santicolle.key
+
+# Configurar los permisos adecuados
+RUN chmod 600 /etc/apache2/ssl/certificado_santicolle.crt
+
+# Incluir la configuración SSL
+COPY santicolle-apache-ssl.conf /etc/apache2/sites-available/santicolle-apache-ssl.conf
+
+# Exponer el puerto HTTPS
+EXPOSE 443
