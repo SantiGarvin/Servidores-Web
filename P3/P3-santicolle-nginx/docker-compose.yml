@@ -126,7 +126,7 @@ services:
       - ./santicolle-nginx-ssl.conf:/etc/nginx/nginx.conf
       - ./certificados_santicolle:/etc/nginx/ssl/
     ports:
-      - "8080:80"
+      - "8443:443"
     # restart: always
     networks:
       red_web:

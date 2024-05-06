@@ -23,3 +23,5 @@ COPY santicolle-apache-ssl.conf /etc/apache2/sites-available/santicolle-apache-s
 
 # Exponer el puerto HTTPS
 EXPOSE 443
+
+CMD [ "apachectl", "-D", "FOREGROUND"]
