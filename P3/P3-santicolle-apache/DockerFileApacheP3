@@ -6,17 +6,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Actualizar paquetes e instalar Apache y PHP
 RUN apt update -y \
-    && apt install apache2 php libapache2-mod-php -y
-
-#Instalar módulo y habilitar sitio SSL por defecto y crear directorio para certificados
-RUN a2enmod ssl && a2ensite default-ssl && mkdir /etc/apache2/ssl
+    && apt install apache2 php libapache2-mod-php -y \
+    && a2enmod ssl \
+    && a2ensite default-ssl \
+    && mkdir /etc/apache2/ssl
 
 # Copiar certificado y clave privada
-COPY certificados_santicolle/certificado_santicolle.crt /etc/apache2/ssl/certificado_santicolle.crt
-COPY certificados_santicolle/certificado_santicolle.key /etc/apache2/ssl/certificado_santicolle.key
+COPY certificados_santicolle /etc/apache2/ssl
 
 # Configurar los permisos adecuados
-RUN chmod 600 /etc/apache2/ssl/certificado_santicolle.crt
+RUN chmod 600 /etc/apache2/ssl/*
 
 # Incluir la configuración SSL
 COPY santicolle-apache-ssl.conf /etc/apache2/sites-available/santicolle-apache-ssl.conf
@@ -24,4 +23,9 @@ COPY santicolle-apache-ssl.conf /etc/apache2/sites-available/santicolle-apache-s
 # Exponer el puerto HTTPS
 EXPOSE 443
 
-CMD [ "apachectl", "-D", "FOREGROUND"]
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+
+
+
+
+
