@@ -15,8 +15,7 @@ services:
   web1:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -28,8 +27,7 @@ services:
   web2:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -41,8 +39,7 @@ services:
   web3:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -54,8 +51,7 @@ services:
   web4:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -67,8 +63,7 @@ services:
   web5:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -80,8 +75,7 @@ services:
   web6:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -93,8 +87,7 @@ services:
   web7:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -106,8 +99,7 @@ services:
   web8:
     image: santicolle-apache-image:p3
     volumes:
-      - ./web_santicolle:/var/www/html/
-      - ./certificados_santicolle:/etc/apache2/ssl/
+      - ../P3-santicolle-apache/web_santicolle:/var/www/html/
     restart: always
     networks:
       red_web:
@@ -122,9 +114,6 @@ services:
       dockerfile: DockerFileNginxP3
     image: santicolle-nginx-image:p3
     container_name: nginx
-    volumes:
-      - ./santicolle-nginx-ssl.conf:/etc/nginx/nginx.conf
-      - ./certificados_santicolle:/etc/nginx/ssl/
     ports:
       - "443:443"
     restart: always
