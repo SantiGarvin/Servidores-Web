@@ -1,0 +1,29 @@
+# Imagen base de Apache
+FROM ubuntu:jammy
+
+# Variables de entorno
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Actualizar paquetes e instalar Apache, PHP y IPTABLES
+RUN apt update -y \
+    && apt install apache2 php libapache2-mod-php iptables -y \
+    && a2enmod ssl \
+    && a2ensite default-ssl \
+    && mkdir /etc/apache2/ssl
+
+# Copiar certificado y clave privada
+COPY certificados_santicolle /etc/apache2/ssl
+
+# Configurar los permisos adecuados
+RUN chmod 600 /etc/apache2/ssl/*
+
+# Incluir la configuración SSL
+COPY santicolle-apache-ssl.conf /etc/apache2/sites-available/santicolle-apache-ssl.conf
+COPY P4-santicolle-iptables-web/santicolle-iptables-web.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/santicolle-iptables-web.sh
+
+# Exponer el puerto HTTPS
+# EXPOSE 80 443
+
+CMD /usr/local/bin/santicolle-iptables-web.sh && apache2ctl -D FOREGROUND

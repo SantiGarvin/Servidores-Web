@@ -1,0 +1,25 @@
+FROM nginx:latest
+
+# Crear directorio para SSL
+RUN mkdir -p /etc/nginx/ssl
+
+RUN apt update && apt-get install -y iptables
+
+# Copiar certificados SSL al contenedor
+COPY certificados_santicolle /etc/nginx/ssl
+
+# Incluir configuración de Nginx para SSL
+COPY santicolle-nginx-ssl.conf /etc/nginx/nginx.conf
+
+# Incluir configuración IPTABLES
+COPY P4-santicolle-iptables-nginx/santicolle-iptables-nginx.sh /usr/local/bin/santicolle-iptables-nginx.sh
+
+# Hacer ejecutable el script de configuración de IPTABLES
+RUN chmod +x /usr/local/bin/santicolle-iptables-nginx.sh
+
+# Exponer el puerto HTTPS
+EXPOSE 443
+
+CMD /usr/local/bin/santicolle-iptables-nginx.sh && nginx -g "daemon off;"
+
+
